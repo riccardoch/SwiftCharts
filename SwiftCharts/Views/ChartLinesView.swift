@@ -22,10 +22,12 @@ open class ChartLinesView: UIView {
     public let animDuration: Float
     public let animDelay: Float
     public let dashPattern: [Double]?
+    public let gradientDirection: (CGPoint, CGPoint)
     
-    public init(path: UIBezierPath, frame: CGRect, lineColors: [UIColor], lineWidth: CGFloat, lineJoin: LineJoin, lineCap: LineCap, animDuration: Float, animDelay: Float, dashPattern: [Double]?) {
+    public init(path: UIBezierPath, frame: CGRect, lineColors: [UIColor], gradientDirection: (CGPoint, CGPoint) = (CGPoint(x: 0.5, y: 1), CGPoint(x: 0.5, y: 0)),lineWidth: CGFloat, lineJoin: LineJoin, lineCap: LineCap, animDuration: Float, animDelay: Float, dashPattern: [Double]?) {
         self.lineColors = lineColors
         self.lineWidth = lineWidth
+        self.gradientDirection = gradientDirection
         self.lineJoin = lineJoin
         self.lineCap = lineCap
         self.animDuration = animDuration
@@ -101,8 +103,8 @@ open class ChartLinesView: UIView {
     fileprivate func addGradientForMultiColorLine(withLayer lineLayer: CAShapeLayer) {
         if lineColors.count > 1 {
             let gradientLayer = CAGradientLayer()
-            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
-            gradientLayer.endPoint = CGPoint(x: 1.0, y: 0)
+            gradientLayer.startPoint = gradientDirection.0 //CGPoint(x: 0.0, y: 0.0)
+            gradientLayer.endPoint = gradientDirection.1 //CGPoint(x: 1.0, y: 0)
             gradientLayer.frame = self.frame
             gradientLayer.colors = lineColors.map({$0.cgColor})
             gradientLayer.mask = lineLayer

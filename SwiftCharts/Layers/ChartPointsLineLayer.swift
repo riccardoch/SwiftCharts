@@ -55,6 +55,7 @@ public enum LineCap {
 public struct ScreenLine<T: ChartPoint> {
     public internal(set) var points: [CGPoint]
     public let colors: [UIColor]
+    public let gradientDirection: (CGPoint, CGPoint)
     public let lineWidth: CGFloat
     public let lineJoin: LineJoin
     public let lineCap: LineCap
@@ -63,9 +64,10 @@ public struct ScreenLine<T: ChartPoint> {
     public let lineModel: ChartLineModel<T>
     public let dashPattern: [Double]?
     
-    init(points: [CGPoint], colors: [UIColor], lineWidth: CGFloat, lineJoin: LineJoin, lineCap: LineCap, animDuration: Float, animDelay: Float, lineModel: ChartLineModel<T>, dashPattern: [Double]?) {
+    init(points: [CGPoint], colors: [UIColor], gradientDirection: (CGPoint, CGPoint) = (CGPoint(x: 0.5, y: 1), CGPoint(x: 0.5, y: 0)), lineWidth: CGFloat, lineJoin: LineJoin, lineCap: LineCap, animDuration: Float, animDelay: Float, lineModel: ChartLineModel<T>, dashPattern: [Double]?) {
         self.points = points
         self.colors = colors
+        self.gradientDirection = gradientDirection
         self.lineWidth = lineWidth
         self.lineJoin = lineJoin
         self.lineCap = lineCap
@@ -107,6 +109,7 @@ open class ChartPointsLineLayer<T: ChartPoint>: ChartPointsLayer<T> {
         return ScreenLine(
             points: lineModel.chartPoints.map{chartPointScreenLoc($0)},
             colors: lineModel.lineColors,
+            gradientDirection: lineModel.gradientDirection,
             lineWidth: lineModel.lineWidth,
             lineJoin: lineModel.lineJoin,
             lineCap: lineModel.lineCap,
@@ -142,6 +145,7 @@ open class ChartPointsLineLayer<T: ChartPoint>: ChartPointsLayer<T> {
             path: pathGenerator.generatePath(points: screenLine.points, lineWidth: screenLine.lineWidth),
             frame: chart.contentView.bounds,
             lineColors: screenLine.colors,
+            gradientDirection: screenLine.gradientDirection,
             lineWidth: screenLine.lineWidth,
             lineJoin: screenLine.lineJoin,
             lineCap: screenLine.lineCap,

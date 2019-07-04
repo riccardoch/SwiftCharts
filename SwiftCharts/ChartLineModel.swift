@@ -16,6 +16,9 @@ public struct ChartLineModel<T: ChartPoint> {
 
     /// The color(s) that the line is drawn with
     public let lineColors: [UIColor]
+    
+    /// Gradient direction 
+    public let gradientDirection: (CGPoint, CGPoint)
 
     /// The width of the line in points
     public let lineWidth: CGFloat
@@ -33,9 +36,10 @@ public struct ChartLineModel<T: ChartPoint> {
     /// The dash pattern for the line
     public let dashPattern: [Double]?
     
-    public init(chartPoints: [T], lineColors: [UIColor], lineWidth: CGFloat = 1, lineJoin: LineJoin = .round, lineCap: LineCap = .round, animDuration: Float, animDelay: Float, dashPattern: [Double]? = nil) {
+    public init(chartPoints: [T], lineColors: [UIColor], gradientDirection: (CGPoint, CGPoint) = (CGPoint(x: 0.5, y: 1.0), CGPoint(x: 0.5, y: 0.0)), lineWidth: CGFloat = 1, lineJoin: LineJoin = .round, lineCap: LineCap = .round, animDuration: Float, animDelay: Float, dashPattern: [Double]? = nil) {
         self.chartPoints = chartPoints
         self.lineColors = lineColors
+        self.gradientDirection = gradientDirection
         self.lineWidth = lineWidth
         self.lineJoin = lineJoin
         self.lineCap = lineCap
